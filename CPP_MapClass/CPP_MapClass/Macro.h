@@ -5,6 +5,7 @@
 #include<conio.h>
 #include<iomanip>
 #include <Windows.h>
+#include <time.h>
 #include <vector>
 
 using namespace std;

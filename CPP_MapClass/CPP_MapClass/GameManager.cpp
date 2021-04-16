@@ -1,6 +1,6 @@
-#include "Map.h"
+#include "GameManager.h"
 
-Map::Map()
+GameManager::GameManager()
 {
 	cout << "¸Ê X ÀÔ·Â :";
 	cin >> m_ix;
@@ -14,7 +14,26 @@ Map::Map()
 	P.CreatePlayer(m_ix, m_iy);
 }
 
-void Map::AddMonster()
+void GameManager::Update()
+{
+	while (1)
+	{
+		AddMonster();
+		PlayerDraw();
+		UseFire();
+		BulletDraw();
+		MonsterDraw();
+		Collision();
+		CollisionBullet();
+		ShowInfo();
+		UseBomb();
+		ExitGame();
+		Sleep(50);
+	}
+}
+
+
+void GameManager::AddMonster()
 {
 	if (P.GetCreate() == true)
 	{
@@ -29,17 +48,17 @@ void Map::AddMonster()
 	return;
 }
 
-void Map::MapDraw()
+void GameManager::MapDraw()
 {
 	MapDraw::BoxDraw(m_ix, m_iy, m_iWidth, m_iHeight);
 }
 
-void Map::PlayerDraw()
+void GameManager::PlayerDraw()
 {
 	P.MovePlayer(m_ix, m_iy, m_iWidth, m_iHeight);
 }
 
-void Map::MonsterDraw()
+void GameManager::MonsterDraw()
 {
 	if (M.empty())
 	{
@@ -49,7 +68,7 @@ void Map::MonsterDraw()
 		iter->MoveMonster(m_ix, m_iy, m_iWidth, m_iHeight);
 }
 
-void Map::BulletDraw()
+void GameManager::BulletDraw()
 {
 	if (B.empty())
 	{
@@ -59,7 +78,7 @@ void Map::BulletDraw()
 		iter->MoveBullet(m_ix, m_iy, m_iWidth, m_iHeight);
 }
 
-void Map::Collision()
+void GameManager::Collision()
 {
 	bool check;
 	for (vector<Monster>::iterator iter = M.begin(); iter != M.end(); iter++)
@@ -75,7 +94,7 @@ void Map::Collision()
 	}
 }
 
-void Map::CollisionBullet()
+void GameManager::CollisionBullet()
 {
 	for (vector<Monster>::iterator iter = M.begin(); iter != M.end(); iter++)
 	{
@@ -94,12 +113,12 @@ void Map::CollisionBullet()
 	}
 }
 
-void Map::ShowInfo()
+void GameManager::ShowInfo()
 {
 	MapDraw::TextDraw(m_iMonsterCount, m_iKillCount, m_iBulletCount, 0, 5);
 }
 
-void Map::ExitGame()
+void GameManager::ExitGame()
 {
 	if (P.GetExit() == true)
 	{
@@ -109,7 +128,7 @@ void Map::ExitGame()
 	}
 }
 
-void Map::UseBomb()
+void GameManager::UseBomb()
 {
 	if (P.GetBomb() == true)
 	{
@@ -122,7 +141,7 @@ void Map::UseBomb()
 	}
 }
 
-void Map::UseFire()
+void GameManager::UseFire()
 {
 	if (P.GetFire() == true)
 	{
@@ -134,6 +153,6 @@ void Map::UseFire()
 	return;
 }
 
-Map::~Map()
+GameManager::~GameManager()
 {
 }
